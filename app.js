@@ -420,7 +420,7 @@ console.log(alumnosAprobados)
 
 // ejercicio 14
 
-/*
+
 
 let productos = [
     {
@@ -458,6 +458,7 @@ let productos = [
 ]
 
 
+
 function comprar(id, cantidad, callbackExito, callbackError){
     let producto = productos.find(p => p.id === id)
     if(!producto){
@@ -475,12 +476,66 @@ function comprar(id, cantidad, callbackExito, callbackError){
 }
 
 
-comprar(1, 500, m => console.log(m), m => console.log(m))
+// comprar(1, 500, m => console.log(m), m => console.log(m))
 
-*/
+
 
 // ejercicio 15
+/*
+function aplicarDescuento(id, porcentaje, callbackExito, callbackError){
+    let producto = productos.find(p => p.id === id)
+    if(!producto){
+        callbackError("Producto no encontrado")
+        return;
+    }
+    if(porcentaje <= 0 || porcentaje > 100){
+        callbackError("Porcentaje invalido")
+        return;
+    }
+    producto.precio -= producto.precio * (porcentaje / 100);
+
+    callbackExito("Nombre: " + producto.nombre + " // Precio: " + producto.precio)
+
+}
 
 
+ // aplicarDescuento(1, 20, m => console.log(m), m => console.log(m))
 
+aplicarDescuento(1, 20,
+    // callback de éxito de aplicarDescuento
+    m => {
+        console.log("Descuento aplicado:", m);
+
+        // 👇 recién acá llamo a comprar()
+        comprar(
+            1,
+            3,
+            msg => console.log("Compra OK:", msg),
+            err => console.log("Error al comprar:", err)
+        );
+    },
+    // callback de error de aplicarDescuento
+    err => console.log("Error al aplicar descuento:", err)
+);
+ */
+
+// ejercicio 16
+
+function filtrarPorStock(minStock, callbackExito, callbackError){
+    let productosFiltrados = productos.filter(p => p.stock >= minStock)
+    
+    if (minStock <0 ){
+        callbackError("Error: El stock no puede ser menor a 0.")
+        return;
+    }
+    if(productosFiltrados.length === 0){
+        callbackError("Error: No hay productos con ese stock.")
+        return;
+    }
+
+    callbackExito(productosFiltrados)
+
+}
+
+filtrarPorStock(200, p => console.log(p), m => console.log(m))
 
